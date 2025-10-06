@@ -8,8 +8,8 @@
     "Dia_Semana":1,
     "Hora_Inicio":"19:00:00",
     "Hora_Final":"20:30:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":"San Borja, Lima"
   },
   {
@@ -21,8 +21,8 @@
     "Dia_Semana":4,
     "Hora_Inicio":"18:00:00",
     "Hora_Final":"19:30:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":"San Borja, Lima"
   },
   {
@@ -34,8 +34,8 @@
     "Dia_Semana":1,
     "Hora_Inicio":"16:30:00",
     "Hora_Final":"18:00:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":""
   },
   {
@@ -47,8 +47,8 @@
     "Dia_Semana":1,
     "Hora_Inicio":"18:30:00",
     "Hora_Final":"20:00:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":""
   },
   {
@@ -60,8 +60,8 @@
     "Dia_Semana":2,
     "Hora_Inicio":"17:00:00",
     "Hora_Final":"18:00:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":""
   },
   {
@@ -73,8 +73,8 @@
     "Dia_Semana":4,
     "Hora_Inicio":"16:30:00",
     "Hora_Final":"18:00:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":""
   },
   {
@@ -86,8 +86,8 @@
     "Dia_Semana":4,
     "Hora_Inicio":"19:30:00",
     "Hora_Final":"21:00:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":""
   },
   {
@@ -99,8 +99,8 @@
     "Dia_Semana":7,
     "Hora_Inicio":"10:00:00",
     "Hora_Final":"11:30:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":""
   },
   {
@@ -112,8 +112,8 @@
     "Dia_Semana":1,
     "Hora_Inicio":"17:00:00",
     "Hora_Final":"18:30:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":""
   },
   {
@@ -125,8 +125,8 @@
     "Dia_Semana":2,
     "Hora_Inicio":"15:00:00",
     "Hora_Final":"16:30:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":""
   },
   {
@@ -138,8 +138,8 @@
     "Dia_Semana":2,
     "Hora_Inicio":"17:30:00",
     "Hora_Final":"19:30:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":""
   },
   {
@@ -151,8 +151,8 @@
     "Dia_Semana":3,
     "Hora_Inicio":"16:30:00",
     "Hora_Final":"18:00:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":""
   },
   {
@@ -164,8 +164,8 @@
     "Dia_Semana":3,
     "Hora_Inicio":"18:30:00",
     "Hora_Final":"20:00:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":"Miraflores, Lima"
   },
   {
@@ -177,8 +177,8 @@
     "Dia_Semana":4,
     "Hora_Inicio":"15:00:00",
     "Hora_Final":"16:30:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":""
   },
   {
@@ -190,8 +190,8 @@
     "Dia_Semana":4,
     "Hora_Inicio":"17:30:00",
     "Hora_Final":"19:30:00",
-    "Inicio_Contrato":1756684800000,
-    "Fin_Contrato":1767571200000,
+    "Inicio_Contrato":"2025-09-01",
+    "Fin_Contrato":"2026-01-05",
     "Direccion":""
   }
 ]

@@ -1,0 +1,28 @@
+[
+  {
+    "ID_Regular": "R001",
+    "Tutor": "Luyo Alexander",
+    "Alumno": "Chiara Colone",
+    "Curso": "Español",
+    "Modalidad": "Virtual",
+    "Dia_Semana": 1,
+    "Hora_Inicio": "19:00",
+    "Hora_Final": "20:30",
+    "Inicio_Contrato": "2025-09-01",
+    "Fin_Contrato": "2026-01-05",
+    "Direccion": "San Borja, Lima"
+  },
+  {
+    "ID_Regular": "R002",
+    "Tutor": "Luyo Alexander",
+    "Alumno": "Rodrigo Ramirez",
+    "Curso": "Español",
+    "Modalidad": "Virtual",
+    "Dia_Semana": 4,
+    "Hora_Inicio": "18:00",
+    "Hora_Final": "19:30",
+    "Inicio_Contrato": "2025-09-01",
+    "Fin_Contrato": "2026-01-05",
+    "Direccion": "San Borja, Lima"
+  }
+]

@@ -1,11 +1,11 @@
 [
   {
-    "ID_Exc": "EX001",
-    "ID_Regular": "R001",
-    "Tipo": "excluir",
-    "Fecha": "2025-10-13",
-    "Hora_Inicio": "19:00",
-    "Hora_Fin": "20:30",
-    "Comentario": "Feriado"
+    "ID_Exc":"EX001",
+    "ID_Regular":"R001",
+    "Tipo":"excluir",
+    "Fecha":"2025-10-13",
+    "Hora_Inicio":"",
+    "Hora_Fin":"20:30:00",
+    "Comentario":"Feriado"
   }
 ]

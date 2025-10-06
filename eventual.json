@@ -1,14 +1,14 @@
 [
   {
-    "E001":"E001",
-    "Tipo":"Adicional",
-    "Tutor":"Luyo Alexander",
-    "Alumno":"Ruberto Silvanna",
-    "Curso":"Español",
-    "Modalidad":"Presencial",
-    "Fecha":"2025-10-01",
-    "Hora_Inicio":"18:30:00",
-    "Hora_Final":"20:30:00",
-    "ID_Regular":""
+    "ID_Evento": "E001",
+    "Tipo": "Adicional",
+    "Tutor": "Luyo Alexander",
+    "Alumno": "Silvanna Ruberto",
+    "Curso": "Español",
+    "Modalidad": "Presencial",
+    "Fecha": "2025-10-10",
+    "Hora_Inicio": "18:30",
+    "Hora_Final": "20:00",
+    "ID_Regular": ""
   }
 ]

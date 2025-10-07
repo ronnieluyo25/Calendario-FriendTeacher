@@ -126,22 +126,32 @@ async function initCalendar(){
       const end = arg.event.end;
 
       const formatTime = date => date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
-
       const hora = `${formatTime(start)} - ${formatTime(end)}`;
       const alumno = `A: ${props.Alumno}`;
       const tutor = `T: ${props.Tutor}`;
       const modalidadCurso = `(${props.Modalidad}) - ${props.Curso}`;
 
-      // Detectar la vista
       if(arg.view.type === 'listWeek'){
-        // Vista Agenda: todo en línea
-        return { html: `${hora} | ${alumno} | ${tutor} | ${modalidadCurso}` };
+        // Vista Agenda: mostrar solo Alumno | Tutor | Modalidad-Curso
+        return { html: `${alumno} | ${tutor} | ${modalidadCurso}` };
       } else {
-        // Vista Semana: formato vertical
+        // Vista Semana: formato vertical con hora
         return { html: `<div style="font-size:13px; line-height:1.2;">
           ${hora}<br>${alumno}<br>${tutor}<br>${modalidadCurso}
         </div>` };
       }
+    },
+
+    // Colores según modalidad
+    eventDidMount: function(info) {
+      if(info.event.extendedProps.Modalidad.toLowerCase() === 'presencial'){
+        info.el.style.backgroundColor = '#4a90e2'; // Azul
+        info.el.style.color = 'white';
+      } else if(info.event.extendedProps.Modalidad.toLowerCase() === 'virtual'){
+        info.el.style.backgroundColor = '#27ae60'; // Verde
+        info.el.style.color = 'white';
+      }
+      info.el.style.borderRadius = '5px';
     }
   });
 

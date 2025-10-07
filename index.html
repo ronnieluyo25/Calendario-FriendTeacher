@@ -132,9 +132,16 @@ async function initCalendar(){
       const tutor = `T: ${props.Tutor}`;
       const modalidadCurso = `(${props.Modalidad}) - ${props.Curso}`;
 
-      return { html: `<div style="font-size:13px; line-height:1.2;">
-        ${hora}<br>${alumno}<br>${tutor}<br>${modalidadCurso}
-      </div>` };
+      // Detectar la vista
+      if(arg.view.type === 'listWeek'){
+        // Vista Agenda: todo en línea
+        return { html: `${hora} | ${alumno} | ${tutor} | ${modalidadCurso}` };
+      } else {
+        // Vista Semana: formato vertical
+        return { html: `<div style="font-size:13px; line-height:1.2;">
+          ${hora}<br>${alumno}<br>${tutor}<br>${modalidadCurso}
+        </div>` };
+      }
     }
   });
 

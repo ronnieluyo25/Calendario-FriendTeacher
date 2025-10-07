@@ -46,7 +46,7 @@ function generateRegularEvents(regular, excepciones){
   regular.forEach(r => {
     const inicio = new Date(r.Inicio_Contrato);
     const fin = new Date(r.Fin_Contrato);
-    const diaSemana = parseInt(r.Dia_Semana); // 1=Lunes ... 7=Domingo
+    const diaSemana = parseInt(r.Dia_Semana);
 
     let current = new Date(inicio);
     while(current <= fin){
@@ -79,7 +79,7 @@ function generateEventualEvents(eventual){
 
 function formatWeekTitle(start, end){
   const startDay = start.getDate();
-  const endDay = new Date(end.getTime() - 1).getDate(); // restar 1 ms para último día correcto
+  const endDay = new Date(end.getTime() - 1).getDate();
   const monthYear = start.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }).toUpperCase();
   return `${startDay} – ${endDay} ${monthYear}`;
 }
@@ -112,14 +112,30 @@ async function initCalendar(){
       return { html: `${dayName}<br>${date}` };
     },
 
-    // Título de la semana personalizado
+    // Título de la semana
     datesSet: function(info){
       const weekTitle = formatWeekTitle(info.view.currentStart, info.view.currentEnd);
       const headerEl = calendarEl.querySelector('.fc-toolbar-title');
       if(headerEl) headerEl.innerHTML = weekTitle;
     },
 
-    eventClick: info => alert(JSON.stringify(info.event.extendedProps, null, 2))
+    // Contenido de cada evento
+    eventContent: function(arg) {
+      const props = arg.event.extendedProps;
+      const start = arg.event.start;
+      const end = arg.event.end;
+
+      const formatTime = date => date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
+      const hora = `${formatTime(start)} - ${formatTime(end)}`;
+      const alumno = `A: ${props.Alumno}`;
+      const tutor = `T: ${props.Tutor}`;
+      const modalidadCurso = `(${props.Modalidad}) - ${props.Curso}`;
+
+      return { html: `<div style="font-size:13px; line-height:1.2;">
+        ${hora}<br>${alumno}<br>${tutor}<br>${modalidadCurso}
+      </div>` };
+    }
   });
 
   calendar.render();

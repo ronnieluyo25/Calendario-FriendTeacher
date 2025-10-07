@@ -78,10 +78,9 @@ function generateEventualEvents(eventual){
 }
 
 function formatWeekTitle(start, end){
-  const options = { month: 'long', year: 'numeric' };
   const startDay = start.getDate();
-  const endDay = end.getDate();
-  const monthYear = start.toLocaleDateString('es-ES', options).toUpperCase();
+  const endDay = new Date(end.getTime() - 1).getDate(); // restar 1 ms para último día correcto
+  const monthYear = start.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }).toUpperCase();
   return `${startDay} – ${endDay} ${monthYear}`;
 }
 
@@ -105,17 +104,21 @@ async function initCalendar(){
     slotMaxTime:'22:00:00',
     headerToolbar: { left:'prev,next today', center:'title', right:'timeGridWeek,listWeek' },
     events: events,
+
+    // Encabezado diario: LUNES + número
     dayHeaderContent: function(arg) {
-      const dayName = arg.text.toUpperCase(); // LUNES, MARTES...
-      const date = arg.date.getDate(); // número del día
+      const dayName = arg.date.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
+      const date = arg.date.getDate();
       return { html: `${dayName}<br>${date}` };
     },
+
+    // Título de la semana personalizado
     datesSet: function(info){
-      calendar.setOption('titleFormat', { month: 'long', year: 'numeric' }); // título mes/año
       const weekTitle = formatWeekTitle(info.view.currentStart, info.view.currentEnd);
       const headerEl = calendarEl.querySelector('.fc-toolbar-title');
       if(headerEl) headerEl.innerHTML = weekTitle;
     },
+
     eventClick: info => alert(JSON.stringify(info.event.extendedProps, null, 2))
   });
 

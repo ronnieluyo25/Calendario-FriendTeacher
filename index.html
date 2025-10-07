@@ -56,8 +56,8 @@ function generateRegularEvents(regular, excepciones){
         events.push({
           id: r.ID_Regular + '-' + fechaStr.replace(/-/g,''),
           title: `${r.Alumno} • ${r.Curso} (${r.Modalidad})`,
-          start: fechaStr + 'T' + r.Hora_Inicio + ':00',
-          end: fechaStr + 'T' + r.Hora_Final + ':00',
+          start: fechaStr + 'T' + r.Hora_Inicio,
+          end: fechaStr + 'T' + r.Hora_Final,
           extendedProps: r
         });
       }
@@ -71,10 +71,18 @@ function generateEventualEvents(eventual){
   return eventual.map(r => ({
     id: r.ID_Evento,
     title: `${r.Alumno} • ${r.Curso} (${r.Modalidad})`,
-    start: r.Fecha + 'T' + r.Hora_Inicio + ':00',
-    end: r.Fecha + 'T' + r.Hora_Final + ':00',
+    start: r.Fecha + 'T' + r.Hora_Inicio,
+    end: r.Fecha + 'T' + r.Hora_Final,
     extendedProps: r
   }));
+}
+
+function formatWeekTitle(start, end){
+  const options = { month: 'long', year: 'numeric' };
+  const startDay = start.getDate();
+  const endDay = end.getDate();
+  const monthYear = start.toLocaleDateString('es-ES', options).toUpperCase();
+  return `${startDay} – ${endDay} ${monthYear}`;
 }
 
 async function initCalendar(){
@@ -97,8 +105,20 @@ async function initCalendar(){
     slotMaxTime:'22:00:00',
     headerToolbar: { left:'prev,next today', center:'title', right:'timeGridWeek,listWeek' },
     events: events,
+    dayHeaderContent: function(arg) {
+      const dayName = arg.text.toUpperCase(); // LUNES, MARTES...
+      const date = arg.date.getDate(); // número del día
+      return { html: `${dayName}<br>${date}` };
+    },
+    datesSet: function(info){
+      calendar.setOption('titleFormat', { month: 'long', year: 'numeric' }); // título mes/año
+      const weekTitle = formatWeekTitle(info.view.currentStart, info.view.currentEnd);
+      const headerEl = calendarEl.querySelector('.fc-toolbar-title');
+      if(headerEl) headerEl.innerHTML = weekTitle;
+    },
     eventClick: info => alert(JSON.stringify(info.event.extendedProps, null, 2))
   });
+
   calendar.render();
 
   // Filtros

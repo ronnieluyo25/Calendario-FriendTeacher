@@ -92,7 +92,14 @@ body{
 }
 
 /* Contenido del evento (compacto) */
-.evt{ display:flex; flex-direction:column; gap:2px; line-height:1.2; }
+.evt{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  line-height:1.2;
+  align-items:center;     
+  text-align:center;       
+}
 .evt-row{ font-size: 12px; font-weight: 600; }
 .evt-time{ font-size: 12px; opacity:.9; }
 

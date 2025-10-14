@@ -23,11 +23,25 @@ function dayNameToNumber(input){
   return map[s] ?? null;
 }
 
-// Crea una fecha LOCAL a partir de "YYYY-MM-DD" + "HH:mm"
+// "YYYY-MM-DD" o "DD/MM/YYYY" -> Date LOCAL (00:00)
+function parseLocalDate(dateStr){
+  const s = String(dateStr).trim();
+  if (s.includes('-')) {
+    const [y,m,d] = s.split('-').map(Number);
+    return new Date(y, m-1, d, 0, 0, 0, 0);
+  }
+  if (s.includes('/')) {
+    const [d, m, y] = s.split('/').map(Number); // DD/MM/YYYY
+    return new Date(y, m-1, d, 0, 0, 0, 0);
+  }
+  throw new Error('Formato de fecha no soportado: ' + s);
+}
+
+// Crea Date LOCAL combinando fecha + "HH:mm"
 function combineLocal(dateStr, timeStr){
-  const [y,m,d] = dateStr.split('-').map(Number);
-  const [hh,mm] = timeStr.split(':').map(Number);
-  return new Date(y, m-1, d, hh, mm, 0, 0); // ← sin zona, estrictamente local
+  const base = parseLocalDate(dateStr);
+  const [hh,mm] = String(timeStr).trim().split(':').map(Number);
+  return new Date(base.getFullYear(), base.getMonth(), base.getDate(), hh, mm, 0, 0);
 }
 
 // -------------------- Generación de eventos --------------------
@@ -36,12 +50,13 @@ function generateRegularEvents(regular, excepciones){
   const excluidos = new Set(excepciones.map(e => `${e.ID_Regular}|${e.Fecha}`));
 
   regular.forEach(r => {
-    const inicio = new Date(r.Inicio_Contrato);
-    const fin = new Date(r.Fin_Contrato);
+    const inicio = parseLocalDate(r.Inicio_Contrato);
+    const fin    = parseLocalDate(r.Fin_Contrato);
 
-    const diaSemana = Number.isFinite(+r.Dia_Semana)
-      ? (parseInt(r.Dia_Semana) === 0 ? 7 : parseInt(r.Dia_Semana))
-      : dayNameToNumber(r.Dia_Semana);
+    const ds = String(r.Dia_Semana ?? '').trim();
+    const diaSemana = ds && /^\d+$/.test(ds)
+      ? (parseInt(ds,10) === 0 ? 7 : parseInt(ds,10))
+      : dayNameToNumber(ds);
 
     if(!diaSemana || diaSemana < 1 || diaSemana > 7) return;
 
@@ -58,8 +73,8 @@ function generateRegularEvents(regular, excepciones){
         events.push({
           id: `${r.ID_Regular}-${fechaStr.replace(/-/g,'')}-${r.Hora_Inicio}`,
           title: `${r.Alumno} • ${r.Curso} (${r.Modalidad})`,
-          start: combineLocal(fechaStr, r.Hora_Inicio),  // ← Date local
-          end:   combineLocal(fechaStr, r.Hora_Final),   // ← Date local
+          start: combineLocal(fechaStr, r.Hora_Inicio),
+          end:   combineLocal(fechaStr, r.Hora_Final),
           extendedProps: r
         });
       }
@@ -71,12 +86,12 @@ function generateRegularEvents(regular, excepciones){
 
 function generateEventualEvents(eventual){
   return eventual.map(r => {
-    const fechaStr = r.Fecha; // "YYYY-MM-DD"
+    const fechaStr = String(r.Fecha).trim(); // admite YYYY-MM-DD o DD/MM/YYYY
     return {
       id: r.ID_Evento,
       title: `${r.Alumno} • ${r.Curso} (${r.Modalidad})`,
-      start: combineLocal(fechaStr, r.Hora_Inicio),  // ← Date local
-      end:   combineLocal(fechaStr, r.Hora_Final),   // ← Date local
+      start: combineLocal(fechaStr, r.Hora_Inicio),
+      end:   combineLocal(fechaStr, r.Hora_Final),
       extendedProps: r
     };
   });
@@ -106,15 +121,13 @@ async function initCalendar(){
     const calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: 'timeGridWeek',
       locale: 'es',
-      timeZone: 'America/Lima',         // puedes usar 'local' si prefieres
+      timeZone: 'local',                // local para evitar desplazamientos
       nowIndicator: true,
       firstDay: 1,
       allDaySlot: false,                // sin “Todo el día”
       slotMinTime: '06:00:00',
       slotMaxTime: '22:00:00',
-      slotLabelFormat: {                // 6:00, 7:00, …
-        hour: 'numeric', minute: '2-digit', hour12: false
-      },
+      slotLabelFormat: { hour: 'numeric', minute: '2-digit', hour12: false }, // 6:00, 7:00…
       headerToolbar: { left:'prev,next today', center:'title', right:'timeGridWeek,listWeek' },
       events,
 
@@ -138,6 +151,7 @@ async function initCalendar(){
         ];
       },
 
+      // Contenido compacto y centrado
       eventContent: (arg) => {
         const p = arg.event.extendedProps;
         const fmt = (d)=> d.toLocaleTimeString('es-PE', { hour: 'numeric', minute: '2-digit', hour12: false });

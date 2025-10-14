@@ -1,248 +1,52 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Calendario de Clases</title>
+    <meta charset="UTF-8" />
+    <title>Calendario de Clases</title>
 
-  <!-- FullCalendar -->
-  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.19/locales/es.global.min.js"></script>
+    <!-- FullCalendar -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.19/index.global.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.19/locales/es.global.min.js"></script>
 
-  <style>
-    body { font-family: Arial, sans-serif; background: #f5f6fa; margin:0; padding:0; }
-    .container { max-width:1200px; margin:20px auto; padding:0 20px; }
-    .header { display:flex; justify-content: space-between; align-items:center; margin-bottom:10px; }
-    .filters { display:flex; gap:10px; flex-wrap: wrap; }
-    select { padding:5px 10px; border-radius:5px; border:1px solid #ccc; }
-    #calendar { background:white; border-radius:10px; padding:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-    .banner { margin:8px 0;padding:8px;background:#fff3cd;border:1px solid #ffeeba;border-radius:6px; }
-  </style>
+    <!-- Estilos propios -->
+    <link rel="stylesheet" href="./styles.css" />
 </head>
+
 <body>
+    <div class="page">
+        <header class="page__header">
+            <div class="brand">
+                <span class="brand__icon">📅</span>
+                <h1 class="brand__title">Calendario de Clases</h1>
+            </div>
 
-<div class="container">
-  <div class="header">
-    <h2>📅 Calendario de Clases</h2>
-    <div class="filters">
-      <select id="filterTutor"><option value="">Todos los tutores</option></select>
-      <select id="filterAlumno"><option value="">Todos los alumnos</option></select>
-      <select id="filterCurso"><option value="">Todos los cursos</option></select>
-      <select id="filterModalidad"><option value="">Todas las modalidades</option></select>
-      <button id="resetFilters">Limpiar filtros</button>
+            <div class="filters">
+                <select id="filterTutor" class="ui-select">
+                    <option value="">Todos los tutores</option>
+                </select>
+                <select id="filterAlumno" class="ui-select">
+                    <option value="">Todos los alumnos</option>
+                </select>
+                <select id="filterCurso" class="ui-select">
+                    <option value="">Todos los cursos</option>
+                </select>
+                <select id="filterModalidad" class="ui-select">
+                    <option value="">Todas las modalidades</option>
+                </select>
+                <button id="resetFilters" class="ui-btn ui-btn--ghost">Limpiar filtros</button>
+            </div>
+        </header>
+
+        <main class="page__content">
+            <div id="banner" class="banner" hidden></div>
+            <div id="calendar" class="calendar-card"></div>
+        </main>
     </div>
-  </div>
-  <div id="calendar"></div>
-</div>
 
-<script>
-async function loadJSONWithCache(url, cacheKey){
-  try {
-    const resp = await fetch(url, { cache: 'no-store' });
-    if(!resp.ok) throw new Error('HTTP '+resp.status);
-    const data = await resp.json();
-    localStorage.setItem(cacheKey, JSON.stringify({ data, ts: new Date().toISOString() }));
-    return { data, stale:false, ts: new Date() };
-  } catch (err) {
-    const cached = localStorage.getItem(cacheKey);
-    if (cached) {
-      const { data, ts } = JSON.parse(cached);
-      return { data, stale:true, ts: new Date(ts) };
-    }
-    throw err;
-  }
-}
-
-function dayNameToNumber(input){
-  if (input == null) return null;
-  const s = String(input).trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
-  const map = { 'lunes':1,'lun':1,'martes':2,'mar':2,'miercoles':3,'mie':3,'jueves':4,'jue':4,'viernes':5,'vie':5,'sabado':6,'sab':6,'domingo':7,'dom':7 };
-  return map[s] ?? null;
-}
-
-function ymd(d){
-  const y = d.getFullYear();
-  const m = String(d.getMonth()+1).padStart(2,'0');
-  const day = String(d.getDate()).padStart(2,'0');
-  return `${y}-${m}-${day}`;
-}
-
-function generateRegularEvents(regular, excepciones){
-  const events = [];
-  const excluidos = new Set(excepciones.map(e => `${e.ID_Regular}|${e.Fecha}`));
-
-  regular.forEach(r => {
-    const inicio = new Date(r.Inicio_Contrato);
-    const fin = new Date(r.Fin_Contrato);
-
-    const diaSemana = Number.isFinite(+r.Dia_Semana)
-      ? (parseInt(r.Dia_Semana) === 0 ? 7 : parseInt(r.Dia_Semana))
-      : dayNameToNumber(r.Dia_Semana);
-
-    if(!diaSemana || diaSemana < 1 || diaSemana > 7) return;
-
-    const first = new Date(inicio);
-    while(((first.getDay() || 7)) !== diaSemana){
-      first.setDate(first.getDate()+1);
-      if(first > fin) return;
-    }
-
-    for(let d = new Date(first); d <= fin; d.setDate(d.getDate()+7)){
-      const fechaStr = ymd(d);
-      const key = `${r.ID_Regular}|${fechaStr}`;
-      if(!excluidos.has(key)){
-        events.push({
-          id: `${r.ID_Regular}-${fechaStr.replace(/-/g,'')}-${r.Hora_Inicio}`,
-          title: `${r.Alumno} • ${r.Curso} (${r.Modalidad})`,
-          start: `${fechaStr}T${r.Hora_Inicio}`,
-          end:   `${fechaStr}T${r.Hora_Final}`,
-          extendedProps: r
-        });
-      }
-    }
-  });
-
-  return events;
-}
-
-function generateEventualEvents(eventual){
-  return eventual.map(r => ({
-    id: r.ID_Evento,
-    title: `${r.Alumno} • ${r.Curso} (${r.Modalidad})`,
-    start: r.Fecha + 'T' + r.Hora_Inicio,
-    end: r.Fecha + 'T' + r.Hora_Final,
-    extendedProps: r
-  }));
-}
-
-function formatWeekTitle(start, end){
-  const startDay = start.getDate();
-  const endDay = new Date(end.getTime() - 1).getDate();
-  const monthYear = start.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }).toUpperCase();
-  return `${startDay} – ${endDay} ${monthYear}`;
-}
-
-async function initCalendar(){
-  const container = document.querySelector('.container');
-  let banner;
-
-  try {
-    const { data: regular }     = await loadJSONWithCache('/api/regular',  'regular_cache');
-    const { data: eventual }    = await loadJSONWithCache('/api/eventual', 'eventual_cache');
-    const { data: excepciones } = await loadJSONWithCache('/api/excepcion','excepcion_cache');
-
-    const events = [
-      ...generateRegularEvents(regular, excepciones),
-      ...generateEventualEvents(eventual)
-    ];
-
-    const calendarEl = document.getElementById('calendar');
-    const calendar = new FullCalendar.Calendar(calendarEl, {
-      initialView:'timeGridWeek',
-      locale:'es',
-      nowIndicator:true,
-      firstDay:1,
-      slotMinTime:'06:00:00',
-      slotMaxTime:'22:00:00',
-      headerToolbar: { left:'prev,next today', center:'title', right:'timeGridWeek,listWeek' },
-      events: events,
-      dayHeaderContent: function(arg) {
-        const dayName = arg.date.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
-        const date = arg.date.getDate();
-        return { html: `${dayName}<br>${date}` };
-      },
-      datesSet: function(info){
-        const weekTitle = formatWeekTitle(info.view.currentStart, info.view.currentEnd);
-        const headerEl = calendarEl.querySelector('.fc-toolbar-title');
-        if(headerEl) headerEl.innerHTML = weekTitle;
-      },
-      eventContent: function(arg) {
-        const props = arg.event.extendedProps;
-        const start = arg.event.start;
-        const end = arg.event.end;
-        const formatTime = date => date.toLocaleTimeString('es-PE', { hour: 'numeric', minute: '2-digit', hour12: true });
-        const hora = `${formatTime(start)} - ${formatTime(end)}`;
-        const alumno = `A: ${props.Alumno}`;
-        const tutor = `T: ${props.Tutor}`;
-        const modalidadCurso = `(${props.Modalidad}) - ${props.Curso}`;
-        if(arg.view.type === 'listWeek'){
-          return { html: `${hora} | ${alumno} | ${tutor} | ${modalidadCurso}` };
-        } else {
-          return { html: `<div class="evt">
-            <div class="evt-time">${hora}</div>
-            <div class="evt-row">${alumno}</div>
-            <div class="evt-row">${tutor}</div>
-            <div class="evt-row">${modalidadCurso}</div>
-          </div>` };
-        }
-      },
-      eventDidMount: function(info) {
-        const mod = String(info.event.extendedProps.Modalidad || '').toLowerCase();
-        if(mod === 'presencial'){
-          info.el.style.backgroundColor = '#4a90e2';
-          info.el.style.color = 'white';
-        } else if(mod === 'virtual'){
-          info.el.style.backgroundColor = '#27ae60';
-          info.el.style.color = 'white';
-        }
-        info.el.style.borderRadius = '5px';
-        info.el.title = info.event.title;
-      }
-    });
-
-    calendar.render();
-
-    // Filtros
-    const tutors = [...new Set(events.map(e=>e.extendedProps.Tutor))];
-    const alumnos = [...new Set(events.map(e=>e.extendedProps.Alumno))];
-    const cursos = [...new Set(events.map(e=>e.extendedProps.Curso))];
-    const modalidades = [...new Set(events.map(e=>e.extendedProps.Modalidad))];
-
-    const fillSelect = (id, arr)=>{
-      const sel = document.getElementById(id);
-      arr.forEach(v=>{
-        const opt = document.createElement('option');
-        opt.value=v; opt.textContent=v; sel.appendChild(opt);
-      });
-    };
-    fillSelect('filterTutor', tutors);
-    fillSelect('filterAlumno', alumnos);
-    fillSelect('filterCurso', cursos);
-    fillSelect('filterModalidad', modalidades);
-
-    const eq = (a,b)=> !b || String(a).toLowerCase()===String(b).toLowerCase();
-
-    function applyFilters(){
-      const fTutor = document.getElementById('filterTutor').value;
-      const fAlumno = document.getElementById('filterAlumno').value;
-      const fCurso = document.getElementById('filterCurso').value;
-      const fModalidad = document.getElementById('filterModalidad').value;
-      const filtered = events.filter(e=> eq(e.extendedProps.Tutor, fTutor)
-        && eq(e.extendedProps.Alumno, fAlumno)
-        && eq(e.extendedProps.Curso, fCurso)
-        && eq(e.extendedProps.Modalidad, fModalidad));
-      calendar.removeAllEvents();
-      calendar.addEventSource(filtered);
-    }
-
-    ['filterTutor','filterAlumno','filterCurso','filterModalidad'].forEach(id=>{
-      document.getElementById(id).addEventListener('change', applyFilters);
-    });
-    document.getElementById('resetFilters').addEventListener('click', ()=>{
-      ['filterTutor','filterAlumno','filterCurso','filterModalidad'].forEach(id=> document.getElementById(id).value='');
-      applyFilters();
-    });
-
-  } catch (e) {
-    banner = document.createElement('div');
-    banner.className = 'banner';
-    banner.textContent = 'Error al cargar datos: ' + e.message;
-    container.prepend(banner);
-  }
-}
-
-initCalendar();
-</script>
-
+    <!-- JS propio -->
+    <script src="./app.js"></script>
 </body>
+
 </html>

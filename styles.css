@@ -14,6 +14,7 @@
 --pastel-blue: #a7c7ff;   /* presencial */
 --pastel-purple: #d6bcfa; /* virtual   */
 --event-text: #0f172a;
+--fc-event-text-color: #0f172a; /* texto negro o azul oscuro */
 }
 
 *{ box-sizing: border-box; }

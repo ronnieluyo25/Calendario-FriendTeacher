@@ -130,6 +130,10 @@ try {
       slotLabelFormat: { hour: 'numeric', minute: '2-digit', hour12: false }, // 6:00, 7:00…
     headerToolbar: { left:'prev,next today', center:'title', right:'timeGridWeek,listWeek' },
     events,
+    stickyHeaderDates: true,   // encabezados fijos al scrollear
+    expandRows: true,
+    slotDuration: '00:30:00',  // 2 slots por hora
+    contentHeight: 440,        // <- ajusta según el slot height
 
     dayHeaderContent: (arg) => {
         const dayName = arg.date.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();

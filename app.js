@@ -121,19 +121,24 @@ try {
     const calendar = new FullCalendar.Calendar(calendarEl, {
     initialView: 'timeGridWeek',
     locale: 'es',
-      timeZone: 'local',                // local para evitar desplazamientos
+    timeZone: 'local',                 // local para evitar desplazamientos
     nowIndicator: true,
     firstDay: 1,
-      allDaySlot: false,                // sin “Todo el día”
+    allDaySlot: false,                 // sin “Todo el día”
     slotMinTime: '06:00:00',
     slotMaxTime: '22:00:00',
-      slotLabelFormat: { hour: 'numeric', minute: '2-digit', hour12: false }, // 6:00, 7:00…
+    slotLabelFormat: { hour: 'numeric', minute: '2-digit', hour12: false }, // 6:00, 7:00…
     headerToolbar: { left:'prev,next today', center:'title', right:'timeGridWeek,listWeek' },
+
+    // === Ajustes de vista/scroll (sin cambiar el tamaño de slot) ===
+    stickyHeaderDates: true,           // encabezados fijos al scrollear
+    expandRows: true,                  // calcula bien alturas internas
+    contentHeight: 500,                // ~6 horas visibles (ajusta 460–540 si deseas)
+    scrollTime: '06:00:00',            // que arranque mostrando las 06:00
+    scrollTimeReset: false,            // conserva la posición al cambiar de semana
+
     events,
-    stickyHeaderDates: true,   // encabezados fijos al scrollear
-    expandRows: true,
-    slotDuration: '00:30:00',  // 2 slots por hora
-    contentHeight: 440,        // <- ajusta según el slot height
+
 
     dayHeaderContent: (arg) => {
         const dayName = arg.date.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();

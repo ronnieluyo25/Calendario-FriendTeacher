@@ -105,6 +105,10 @@ line-height: 1.2;
 .evt-row{ font-size: 12px; font-weight: 600; }
 .evt-time{ font-size: 12px; opacity:.9; }
 
+.fc-event, .fc-event-title, .evt, .evt * {
+  color: var(--fc-event-text-color) !important;
+}
+
 /* Responsive */
 @media (max-width: 900px){
 .page{ margin: 16px auto; }

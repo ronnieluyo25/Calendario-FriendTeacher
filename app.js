@@ -133,7 +133,7 @@ try {
     // === Ajustes de vista/scroll (sin cambiar el tamaño de slot) ===
     stickyHeaderDates: true,           // encabezados fijos al scrollear
     expandRows: true,                  // calcula bien alturas internas
-    contentHeight: 600,                // ~6 horas visibles (ajusta 460–540 si deseas)
+    contentHeight: 520,                // ~6 horas visibles (ajusta 460–540 si deseas)
     scrollTime: '06:00:00',            // que arranque mostrando las 06:00
     scrollTimeReset: false,            // conserva la posición al cambiar de semana
 

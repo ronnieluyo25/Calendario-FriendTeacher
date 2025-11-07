@@ -17,100 +17,80 @@
 --fc-event-text-color: #0f172a; /* texto negro o azul oscuro */
 }
 
-*{ box-sizing: border-box; }
-html,body{ height: 100%; }
-body{
-margin:0; background: var(--bg); color: var(--text); font-family: var(--font);
+
+/* Ajustes generales */
+* {
+  box-sizing: border-box;
+}
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
 }
 
-.page{ max-width: 1200px; margin: 28px auto; padding: 0 20px; }
-
-.page__header{
-display:flex; flex-wrap:wrap; gap:14px; align-items:center; justify-content:space-between; margin-bottom:16px;
+/* Tabla en PDF más angosta */
+#exportArea .tbl {
+  width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
+  table-layout: fixed; /* Asegura que las celdas sean de ancho fijo */
 }
 
-.brand{ display:flex; align-items:center; gap:10px; }
-.brand__icon{ font-size: 22px; }
-.brand__title{ font-size: 22px; margin:0; letter-spacing:.3px; }
-
-.filters{ display:flex; flex-wrap:wrap; gap:10px; }
-
-.ui-select{
-appearance:none; padding:9px 12px; border:1px solid var(--border); border-radius: var(--radius-sm);
-background: #fff; color: var(--text); box-shadow: var(--shadow-sm);
-}
-.ui-select:focus{ outline: 2px solid rgba(14,165,233,.25); border-color: var(--primary); }
-
-.ui-btn{
-padding:10px 14px; border-radius: var(--radius-sm); border:1px solid var(--border);
-background: var(--primary); color:#fff; cursor:pointer; box-shadow: var(--shadow-sm);
-}
-.ui-btn--ghost{ background:#fff; color: var(--text); }
-.ui-btn:hover{ filter: brightness(0.98); }
-
-.calendar-card{
-background: var(--card); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow);
+#exportArea .tbl th, #exportArea .tbl td {
+  padding: 5px 8px; /* Reducir el espacio en las celdas */
+  text-align: center; /* Centrar todo el contenido de las celdas */
 }
 
-/* Banner de error / info */
-.banner{
-margin-bottom: 12px; padding:10px 12px; border:1px solid #ffe1a8; background: #fff7e6;
-border-radius: var(--radius-sm); color:#7a5b13;
+/* Ajustar el ancho de las columnas Horas, Precio x Hora e Importe */
+#exportArea .tbl th:nth-child(5),
+#exportArea .tbl th:nth-child(6),
+#exportArea .tbl th:nth-child(7),
+#exportArea .tbl td:nth-child(5),
+#exportArea .tbl td:nth-child(6),
+#exportArea .tbl td:nth-child(7) {
+  width: 60px; /* Reducir aún más el ancho de estas columnas */
 }
 
-/* -------- Ajustes FullCalendar -------- */
-.fc .fc-toolbar{ gap:8px; }
-.fc .fc-toolbar-title{
-font-size: 18px; font-weight: 800; letter-spacing: .6px;
-}
-.fc .fc-button{
-border-radius: 10px; border:1px solid var(--border); box-shadow: var(--shadow-sm);
-background:#fff; color: var(--text);
-}
-.fc .fc-button-primary:not(:disabled).fc-button-active, 
-.fc .fc-button-primary:not(:disabled):active{
-background: var(--primary); border-color: var(--primary); color:#fff;
+#exportArea .tbl td {
+  font-size: 11px; /* Reducir el tamaño de la fuente */
 }
 
-/* Altura de cada bloque de hora (más compacto) */
-.fc .fc-timegrid-slot{ height: 38px; }
-
-/* Evento base */
-.fc-event{
-border: 0; border-radius: 12px; padding: 4px 6px;
-box-shadow: 0 2px 6px rgba(16,24,40,.08);
+/* Espaciado y ajuste del título */
+#pdfHeader h2 {
+  line-height: 1.8; /* Aumentar el interlineado del título */
+  margin-bottom: 20px; /* Espacio entre el título y la tabla */
 }
 
-/* Pasteles por modalidad */
-.event--presencial{
-background: var(--pastel-blue);
-color: var(--event-text);
+/* Fondo y estilo para los botones */
+.ui-btn {
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--primary);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
 }
-.event--virtual{
-background: var(--pastel-purple);
-color: var(--event-text);
-}
-
-/* Contenido del evento (compacto) */
-.evt{
-display: flex;
-flex-direction: column;
-justify-content: center;   
-align-items: center;      
-text-align: center;
-gap: 2px;
-height: 100%;              
-line-height: 1.2;
-}
-.evt-row{ font-size: 12px; font-weight: 600; }
-.evt-time{ font-size: 12px; opacity:.9; }
-
-.fc-event, .fc-event-title, .evt, .evt * {
-  color: var(--fc-event-text-color) !important;
+.ui-btn:hover {
+  filter: brightness(0.98);
 }
 
-/* Responsive */
-@media (max-width: 900px){
-.page{ margin: 16px auto; }
-.filters{ width:100%; }
+/* Estilo de la tabla con bordes y color de fondo */
+.tbl th {
+  background: var(--card);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.tbl td.text-right {
+  text-align: right;
+}
+
+/* Estilo para el pie de la tabla */
+.tbl tfoot td {
+  background: #f9fafb;
+  font-weight: 700;
+  text-align: center;
 }

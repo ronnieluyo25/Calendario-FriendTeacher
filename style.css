@@ -24,7 +24,7 @@ select, option { color:#111 !important; background:#fff !important; }
 /* Ajustar la tabla en el PDF */
 #exportArea .tbl th, #exportArea .tbl td {
   padding: 5px 8px; /* Reducir el espacio en las celdas */
-  text-align: center; /* Centrar el contenido de las celdas */
+  text-align: center; /* Centrar todo el contenido de las celdas */
 }
 
 #exportArea .tbl th:nth-child(5), 
@@ -33,11 +33,17 @@ select, option { color:#111 !important; background:#fff !important; }
 #exportArea .tbl td:nth-child(5), 
 #exportArea .tbl td:nth-child(6), 
 #exportArea .tbl td:nth-child(7) {
-  width: 75px; /* Reducir el ancho de las columnas Horas, Precio x Hora e Importe */
+  width: 60px; /* Reducir aún más el ancho de las columnas Horas, Precio x Hora e Importe */
 }
 
 #exportArea .tbl td {
   font-size: 11px; /* Reducir el tamaño de la fuente */
+}
+
+/* Asegurarse de que la tabla se vea más angosta */
+#exportArea .tbl {
+  width: 100%; /* Asegurarse que la tabla ocupe todo el ancho */
+  table-layout: fixed; /* Asegura que las celdas sean de ancho fijo */
 }
 
 /* Ajustar interlineado del título */

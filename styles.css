@@ -32,7 +32,6 @@ body {
   font-family: var(--font);
 }
 
-/* Tabla en PDF más angosta */
 #exportArea .tbl {
   width: 100%; /* Asegura que la tabla ocupe todo el ancho disponible */
   table-layout: fixed; /* Asegura que las celdas sean de ancho fijo */
@@ -43,7 +42,7 @@ body {
   text-align: center; /* Centrar todo el contenido de las celdas */
 }
 
-/* Ajustar el ancho de las columnas Horas, Precio x Hora e Importe */
+/* Reducir el ancho de las columnas Horas, Precio x Hora e Importe */
 #exportArea .tbl th:nth-child(5),
 #exportArea .tbl th:nth-child(6),
 #exportArea .tbl th:nth-child(7),
@@ -57,10 +56,12 @@ body {
   font-size: 11px; /* Reducir el tamaño de la fuente */
 }
 
+
+
 /* Espaciado y ajuste del título */
 #pdfHeader h2 {
   line-height: 1.8; /* Aumentar el interlineado del título */
-  margin-bottom: 20px; /* Espacio entre el título y la tabla */
+  margin-bottom: 30px; /* Más espacio entre el título y la tabla */
 }
 
 /* Fondo y estilo para los botones */

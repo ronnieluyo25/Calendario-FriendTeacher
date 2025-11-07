@@ -50,8 +50,7 @@ function renderDetalle(rows) {
       <td class="text-right">${Number(r.horas||0).toFixed(2)}</td>
       <td class="text-right">S/ ${Number(r.precioHora||0).toFixed(2)}</td>
       <td class="text-right font-semibold">S/ ${Number(r.importe||0).toFixed(2)}</td>
-    </tr>
-  `).join('');
+    </tr>`).join('');
 
   const totalHoras = rows.reduce((a,b)=>a+Number(b.horas||0),0);
   const totalImporte = rows.reduce((a,b)=>a+Number(b.importe||0),0);

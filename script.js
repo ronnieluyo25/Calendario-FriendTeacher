@@ -178,3 +178,4 @@ window.addEventListener('DOMContentLoaded', async () => {
   $('#generarBtn').addEventListener('click', generarProforma);
   $('#pdfBtn').addEventListener('click', descargarPDF);
 });
+

@@ -21,10 +21,10 @@ select, option { color:#111 !important; background:#fff !important; }
 .btn-success:hover { background: #09603f; }
 .btn:disabled { opacity: .6; cursor: not-allowed; }
 
-/* Ajustar tabla en el PDF */
+/* Ajustar la tabla en el PDF */
 #exportArea .tbl th, #exportArea .tbl td {
   padding: 5px 8px; /* Reducir el espacio en las celdas */
-  text-align: center; /* Centrar el contenido en las celdas de la tabla */
+  text-align: center; /* Centrar el contenido de las celdas */
 }
 
 #exportArea .tbl th:nth-child(5), 
@@ -33,14 +33,15 @@ select, option { color:#111 !important; background:#fff !important; }
 #exportArea .tbl td:nth-child(5), 
 #exportArea .tbl td:nth-child(6), 
 #exportArea .tbl td:nth-child(7) {
-  width: 80px; /* Reducir el ancho de las columnas Horas, Precio x Hora e Importe */
+  width: 75px; /* Reducir el ancho de las columnas Horas, Precio x Hora e Importe */
 }
 
 #exportArea .tbl td {
-  font-size: 12px; /* Ajustar el tamaño de la fuente */
+  font-size: 11px; /* Reducir el tamaño de la fuente */
 }
 
+/* Ajustar interlineado del título */
 #pdfHeader h2 {
   line-height: 1.8; /* Aumentar el interlineado del título */
-  margin-bottom: 15px; /* Más espacio entre el título y la siguiente sección */
+  margin-bottom: 20px; /* Espacio entre el título y la tabla */
 }
